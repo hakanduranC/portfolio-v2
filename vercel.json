@@ -2,11 +2,11 @@
   "rewrites": [
     {
       "source": "/v1",
-      "destination": "https://personal-website-v1.vercel.app/v1"
+      "destination": "https://hakanduran-portfolio-v1.vercel.app/v1"
     },
     {
       "source": "/v1/:path*",
-      "destination": "https://personal-website-v1.vercel.app/v1/:path*"
+      "destination": "https://hakanduran-portfolio-v1.vercel.app/v1/:path*"
     }
   ]
 }
