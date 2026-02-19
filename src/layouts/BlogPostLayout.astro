@@ -1,0 +1,79 @@
+---
+import BaseLayout from './BaseLayout.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  date: Date;
+  updatedDate?: Date;
+  tags: string[];
+}
+
+const { title, description, date, updatedDate, tags } = Astro.props;
+
+const formatted = date.toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+const updatedFormatted = updatedDate?.toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+
+// Estimate reading time from slot content (rough)
+---
+
+<BaseLayout title={`${title} — Hakan Duran`} description={description}>
+  <article class="pt-28 pb-20" style="padding-left: clamp(20px, 5vw, 56px); padding-right: clamp(20px, 5vw, 56px);">
+    <div class="max-w-[720px] mx-auto">
+      <!-- Back link -->
+      <a href="/blog" class="inline-flex items-center gap-2 text-sm text-muted hover:text-primary transition-colors mb-8">
+        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+        Back to blog
+      </a>
+
+      <!-- Header -->
+      <header class="mb-10">
+        <div class="flex items-center gap-3 text-sm text-muted mb-4">
+          <time datetime={date.toISOString()}>{formatted}</time>
+          {updatedDate && (
+            <>
+              <span class="text-border">|</span>
+              <span>Updated {updatedFormatted}</span>
+            </>
+          )}
+        </div>
+        <h1 class="font-[var(--font-display)] text-3xl md:text-4xl font-bold tracking-tight mb-4">
+          {title}
+        </h1>
+        <p class="text-muted-light text-lg leading-relaxed">{description}</p>
+        {tags.length > 0 && (
+          <div class="flex flex-wrap gap-2 mt-4">
+            {tags.map((tag) => (
+              <span class="text-xs font-medium px-2.5 py-1 rounded-md bg-surface border border-border text-muted">
+                {tag}
+              </span>
+            ))}
+          </div>
+        )}
+      </header>
+
+      <hr class="border-border mb-10" />
+
+      <!-- Content -->
+      <div class="prose">
+        <slot />
+      </div>
+
+      <!-- Nav -->
+      <hr class="border-border mt-12 mb-8" />
+      <div class="flex justify-between items-center">
+        <a href="/blog" class="text-sm text-muted hover:text-primary transition-colors">
+          &larr; All posts
+        </a>
+      </div>
+    </div>
+  </article>
+</BaseLayout>

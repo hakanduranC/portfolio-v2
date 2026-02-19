@@ -1,0 +1,1006 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import BlogPostCard from '../components/BlogPostCard.astro';
+import SkillBadge from '../components/SkillBadge.astro';
+import { Image } from 'astro:assets';
+import { getCollection } from 'astro:content';
+
+const allProjects = await getCollection('projects');
+const featuredProjects = allProjects
+  .filter((p) => p.data.featured)
+  .sort((a, b) => a.data.order - b.data.order);
+
+const allPosts = await getCollection('blog');
+const recentPosts = allPosts
+  .filter((p) => !p.data.draft)
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 3);
+
+const experience = (await getCollection('experience')).sort((a, b) => a.data.order - b.data.order);
+const education = (await getCollection('education')).sort((a, b) => a.data.order - b.data.order);
+const referenceEntries = (await getCollection('references')).sort((a, b) => a.data.order - b.data.order);
+const skillGroups = (await getCollection('skills')).sort((a, b) => a.data.order - b.data.order);
+
+const stats = [
+  { value: '3+', label: 'Years Experience' },
+  { value: 'M.Sc.', label: 'TUM Munich' },
+  { value: '15+', label: 'Technologies' },
+  { value: '3', label: 'Countries Lived' },
+];
+
+const marqueeSkills = [
+  'Python', 'Django', 'React', 'Angular', 'Spring Boot', 'Docker', 'Kubernetes',
+  'AWS', 'Terraform', 'PostgreSQL', 'GitHub Actions', 'GitLab CI', 'LangChain',
+  'DevOps', 'CI/CD', 'Microservices', 'Node.js', 'Weaviate', 'Helm',
+  'Prometheus', 'Grafana', 'REST APIs', 'Flask', '.NET Core', 'MySQL',
+];
+---
+
+<BaseLayout
+  title="Hakan Duran — Full Stack Developer"
+  description="Full Stack Developer & Computer Scientist. M.Sc. Computer Science at Technical University of Munich. Building robust applications with modern technologies."
+>
+
+  <!-- ═══════════════ HERO ═══════════════ -->
+  <section class="min-h-screen flex items-center pt-16 relative overflow-hidden">
+    <div class="absolute inset-0 pointer-events-none overflow-hidden">
+      <div class="absolute w-[600px] h-[600px] rounded-full bg-primary/[0.05] top-[-20%] right-[-10%] blur-[120px]"></div>
+      <div class="absolute w-[400px] h-[400px] rounded-full bg-primary/[0.03] bottom-[-15%] left-[-10%] blur-[100px]"></div>
+    </div>
+    <div class="sec-container relative z-10 w-full">
+      <div class="grid grid-cols-1 md:grid-cols-[1fr_0.8fr] gap-12 md:gap-16 items-center">
+        <div class="flex flex-col gap-5 order-2 md:order-1 text-center md:text-left">
+          <span class="hero-anim inline-flex items-center gap-2.5 text-xs font-semibold uppercase tracking-[0.15em] text-primary justify-center md:justify-start" style="animation-delay:0.15s">
+            <span class="w-6 h-px bg-primary hidden md:block"></span>
+            Full Stack Developer
+          </span>
+          <h1 class="hero-anim font-[var(--font-display)] font-bold leading-[0.95] tracking-tight" style="font-size:clamp(3.5rem,9vw,7rem);animation-delay:0.25s">
+            <span class="block">HAKAN</span>
+            <span class="block text-primary">DURAN</span>
+          </h1>
+          <p class="hero-anim text-muted text-base md:text-lg" style="animation-delay:0.45s">Computer Engineer &amp; Scientist</p>
+          <p class="hero-anim text-muted-light text-sm md:text-base leading-relaxed max-w-lg mx-auto md:mx-0" style="animation-delay:0.55s">
+            Building intelligent systems that scale. Experienced in cloud infrastructure, DevOps pipelines, and AI-powered automation. Currently pursuing M.Sc. in Computer Science at the Technical University of Munich.
+          </p>
+          <div class="hero-anim flex items-center gap-3 flex-wrap justify-center md:justify-start" style="animation-delay:0.65s">
+            <a href="https://github.com/hakanduranC" target="_blank" rel="noopener" class="social-pill">
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+              GitHub
+            </a>
+            <a href="https://linkedin.com/in/hakanduran98" target="_blank" rel="noopener" class="social-pill">
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+              LinkedIn
+            </a>
+            <a href="mailto:contact@hakanduran.me" class="social-pill">
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 7l-10 6L2 7"/></svg>
+              Email
+            </a>
+          </div>
+        </div>
+        <div class="hero-anim relative order-1 md:order-2 max-w-xs md:max-w-none mx-auto" style="animation-delay:0.35s">
+          <div class="absolute inset-[-1px] rounded-2xl bg-gradient-to-br from-primary/20 to-transparent z-0"></div>
+          <Image src="/profile.jpg" alt="Hakan Duran" width={400} height={500} class="relative z-10 w-full rounded-2xl border border-border object-cover" loading="eager" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ STATS ═══════════════ -->
+  <section class="py-10 bg-surface border-y border-border">
+    <div class="sec-container grid grid-cols-2 md:grid-cols-4">
+      {stats.map((stat, i) => (
+        <div class="text-center py-4 px-4 relative">
+          {i < stats.length - 1 && <div class="hidden md:block absolute right-0 top-1/2 -translate-y-1/2 w-px h-8 bg-border"></div>}
+          <div class="font-[var(--font-display)] text-2xl md:text-3xl font-bold tracking-tight text-primary">{stat.value}</div>
+          <div class="text-xs uppercase tracking-widest text-muted mt-1">{stat.label}</div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- ═══════════════ SKILLS MARQUEE ═══════════════ -->
+  <section class="py-6 border-b border-border bg-surface/30 overflow-hidden">
+    <div class="flex animate-marquee whitespace-nowrap">
+      {[...marqueeSkills, ...marqueeSkills].map((s) => (
+        <span class="mx-6 text-lg font-[var(--font-display)] text-muted/30 hover:text-primary transition-colors cursor-default">{s}</span>
+      ))}
+    </div>
+  </section>
+
+  <!-- ═══════════════ EDUCATION ═══════════════ -->
+  <section id="education" class="py-section bg-surface/20 border-y border-border">
+    <div class="sec-container">
+      <div class="section-heading">
+        <h2 class="font-[var(--font-display)] text-3xl md:text-4xl font-bold tracking-tight">
+          <span class="text-primary">Education</span>
+        </h2>
+        <p class="text-muted-light mt-2">Academic background and qualifications</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-3 reveal-group">
+        {education.map((edu, i) => (
+          <div class="edu-card-grid reveal-card" style={`--i:${i}`}>
+            <div class="edu-logo-wrap mb-4">
+              <img src={edu.data.logo} alt={edu.data.institution} class="edu-logo" width="44" height="44" loading="lazy" />
+            </div>
+            <h3 class="font-[var(--font-display)] text-base font-semibold mb-1">{edu.data.institution}</h3>
+            <div class="text-[13px] text-primary font-medium mb-1">{edu.data.degree}</div>
+            {edu.data.focus && <div class="text-xs text-muted-light mb-3">{edu.data.focus}</div>}
+            <div class="mt-auto pt-3 border-t border-border flex justify-between text-xs text-muted">
+              <span>{edu.data.period}</span>
+              <span>{edu.data.location}</span>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <!-- Coursework + Languages -->
+      <div class="mt-6 bg-surface border border-border rounded-2xl p-6">
+        <h4 class="text-sm font-semibold text-muted-light mb-4 uppercase tracking-wider">Recent Coursework</h4>
+        <div class="flex flex-wrap gap-2 reveal-chips">
+          {['Advanced Topics of SW Engineering', 'Requirements Engineering', 'Fundamentals of AI',
+            'Computational Surgery', 'Resilient Cognitive Systems', 'DevOps Engineering',
+            'Protein Prediction', 'AWS Cloud Practitioner'].map((course, i) => (
+            <span class="coursework-chip text-xs px-3 py-1.5 rounded-lg bg-background border border-border text-muted-light transition-all hover:text-primary hover:border-primary/30 cursor-default" style={`--i:${i}`}>{course}</span>
+          ))}
+        </div>
+        <div class="flex items-center gap-3 mt-5 pt-4 border-t border-border">
+          <svg class="w-4 h-4 text-primary flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+          <span class="text-xs text-muted-light"><span class="text-foreground font-medium">Turkish</span> (native) &middot; <span class="text-foreground font-medium">English</span> (C1 certified) &middot; <span class="text-foreground font-medium">German</span> (A2 in use)</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ WORK EXPERIENCE ═══════════════ -->
+  <section id="experience" class="py-section">
+    <div class="sec-container">
+      <div class="section-heading">
+        <h2 class="font-[var(--font-display)] text-3xl md:text-4xl font-bold tracking-tight">
+          Work <span class="text-primary">Experience</span>
+        </h2>
+        <p class="text-muted-light mt-2">My professional journey through different companies and roles</p>
+      </div>
+
+      <div class="exp-list reveal-group">
+        {experience.map((job, i) => (
+          <div class="exp-item reveal-card" style={`--i:${i}`}>
+            <div class="flex flex-wrap justify-between items-center gap-2 mb-1">
+              <div class="flex items-center gap-3">
+                <div class="exp-logo-wrap"><img src={job.data.logo} alt={job.data.company} class="exp-logo" width="36" height="36" loading="lazy" /></div>
+                <h3 class="font-[var(--font-display)] text-lg md:text-xl font-semibold">{job.data.company}</h3>
+              </div>
+              <span class="text-sm text-muted">{job.data.period}</span>
+            </div>
+            <div class="text-sm text-primary font-medium mb-1">
+              {job.data.role}<span class="inline-block text-[11px] font-semibold px-2 py-0.5 ml-2 bg-primary/15 text-primary rounded">{job.data.type}</span>
+            </div>
+            <div class="text-xs text-muted mb-4">{job.data.location}</div>
+            <ul class="exp-bullets">
+              {job.data.bullets.map((b) => (
+                <li set:html={b} />
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ FEATURED PROJECTS ═══════════════ -->
+  <section id="projects" class="py-section bg-surface/20 border-y border-border">
+    <div class="sec-container">
+      <div class="section-heading">
+        <h2 class="font-[var(--font-display)] text-3xl md:text-4xl font-bold tracking-tight">
+          <span class="text-primary">Projects</span>
+        </h2>
+        <p class="text-muted-light mt-2">Technical projects showcasing full-stack development and DevOps</p>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-3 reveal-group">
+        {featuredProjects.map((project, i) => (
+          <div class="project-card group reveal-card" style={`--i:${i}`}>
+            {project.data.logo && (
+              <div class="project-logo-wrap">
+                <img src={project.data.logo} alt="" class="project-logo" width="80" height="44" loading="lazy" />
+              </div>
+            )}
+            <div class="flex justify-between items-start gap-3 mb-1">
+              <h3 class="font-[var(--font-display)] text-lg font-semibold transition-colors group-hover:text-primary">{project.data.title}</h3>
+              <span class="text-xs text-muted whitespace-nowrap flex-shrink-0 mt-1">{project.data.period}</span>
+            </div>
+            {project.data.context && (
+              <div class="text-xs font-medium text-primary mb-2">{project.data.context}</div>
+            )}
+            <p class="text-[13.5px] text-muted-light leading-[1.65] mb-4">{project.data.description}</p>
+            <div class="flex flex-wrap gap-[6px] mt-auto">
+              {project.data.tags.map((tag) => (
+                <span class="text-[11px] font-medium px-2.5 py-1 rounded-md bg-surface-light border border-border text-muted-light transition-all group-hover:text-primary group-hover:border-primary/30 cursor-default">{tag}</span>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ TECHNICAL SKILLS ═══════════════ -->
+  <section id="skills" class="py-section">
+    <div class="sec-container">
+      <div class="section-heading">
+        <h2 class="font-[var(--font-display)] text-3xl md:text-4xl font-bold tracking-tight">
+          Technical <span class="text-primary">Skills</span>
+        </h2>
+        <p class="text-muted-light mt-2">Technologies and tools I work with</p>
+      </div>
+      <div class="skills-grid reveal-group">
+        {skillGroups.map((group, i) => (
+          <div class="skill-card reveal-card" style={`--i:${i}`}>
+            <div class="flex items-center gap-2.5 mb-3">
+              <div class="skill-card-icon">
+                {group.data.icon === 'code' && <svg class="w-[18px] h-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>}
+                {group.data.icon === 'layers' && <svg class="w-[18px] h-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>}
+                {group.data.icon === 'cloud' && <svg class="w-[18px] h-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg>}
+                {group.data.icon === 'cpu' && <svg class="w-[18px] h-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><path d="M15 2v2"/><path d="M15 20v2"/><path d="M2 15h2"/><path d="M2 9h2"/><path d="M20 15h2"/><path d="M20 9h2"/><path d="M9 2v2"/><path d="M9 20v2"/></svg>}
+                {group.data.icon === 'book' && <svg class="w-[18px] h-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>}
+                {group.data.icon === 'globe' && <svg class="w-[18px] h-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>}
+                {group.data.icon === 'hobby' && <svg class="w-[18px] h-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>}
+              </div>
+              <h3 class="font-[var(--font-display)] text-[15px] font-semibold">{group.data.title}</h3>
+            </div>
+            <div class="flex flex-wrap gap-[6px]">
+              {group.data.items.map((skill) => (
+                <span class="skill-chip">{skill}</span>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ REFERENCES ═══════════════ -->
+  <section id="references" class="py-section">
+    <div class="sec-container">
+      <div class="section-heading">
+        <h2 class="font-[var(--font-display)] text-3xl md:text-4xl font-bold tracking-tight">
+          <span class="text-primary">References</span>
+        </h2>
+        <p class="text-muted-light mt-2">Official employer testimonials</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-3 reveal-group">
+        {referenceEntries.map((ref, i) => (
+          <button class="ref-seal-card reveal-card" style={`--i:${i}`} data-ref-title={`${ref.data.label} — ${ref.data.company}`} data-ref-pdf={ref.data.pdf} type="button">
+            <div class="ref-seal">
+              <div class="ref-seal-ring">
+                <div class="ref-seal-inner">
+                  <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+                </div>
+              </div>
+            </div>
+            <div class="flex-1 text-left">
+              <div class="text-xs text-muted uppercase tracking-wider mb-1">{ref.data.label}</div>
+              <h3 class="font-[var(--font-display)] text-lg font-semibold mb-1">{ref.data.company}</h3>
+              <p class="text-[13px] text-muted-light leading-relaxed mb-2">"{ref.data.quote}"</p>
+              <div class="flex items-center gap-3 text-xs text-muted">
+                <span>{ref.data.person}</span>
+                <span class="text-border">|</span>
+                <span>{ref.data.date}</span>
+              </div>
+            </div>
+            <div class="ref-open-hint">
+              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            </div>
+          </button>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Reference PDF Modal -->
+  <div id="ref-modal" class="ref-modal">
+    <div class="ref-modal-backdrop" id="ref-modal-backdrop"></div>
+    <div class="ref-modal-content">
+      <div class="ref-modal-header">
+        <h3 id="ref-modal-title" class="font-[var(--font-display)] font-semibold text-lg"></h3>
+        <div class="flex items-center gap-2">
+          <a id="ref-modal-download" href="" download class="ref-modal-btn">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Download
+          </a>
+          <button id="ref-modal-close" class="ref-modal-close-btn" type="button">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+        </div>
+      </div>
+      <div class="ref-modal-body">
+        <iframe id="ref-pdf-iframe" class="w-full h-full border-0 rounded-lg" title="Reference Letter PDF"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════ LATEST POSTS ═══════════════ -->
+  {recentPosts.length > 0 && (
+    <section id="blog" class="py-section">
+      <div class="sec-container">
+        <div class="flex items-baseline justify-between mb-10">
+          <h2 class="font-[var(--font-display)] text-3xl md:text-4xl font-bold tracking-tight">
+            LATEST <span class="text-primary">POSTS</span>
+          </h2>
+          <a href="/blog" class="text-sm text-muted hover:text-primary transition-colors hidden sm:inline-flex items-center gap-1">
+            View all &rarr;
+          </a>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 reveal-group">
+          {recentPosts.map((post, i) => (
+            <div class="reveal-card" style={`--i:${i}`}>
+              <BlogPostCard
+                title={post.data.title}
+                description={post.data.description}
+                date={post.data.date}
+                tags={post.data.tags}
+                slug={post.id}
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- ═══════════════ CONTACT ═══════════════ -->
+  <section id="contact" class="py-section bg-surface/20 border-y border-border">
+    <div class="sec-container">
+      <div class="grid grid-cols-1 lg:grid-cols-[1fr_1.2fr] gap-16 items-start">
+        <!-- Left: heading + info -->
+        <div>
+          <h2 class="font-[var(--font-display)] text-3xl md:text-4xl font-bold tracking-tight mb-3">
+            GET IN <span class="text-primary">TOUCH</span>
+          </h2>
+          <p class="text-muted-light mb-8">Feel free to reach out for collaborations or just a friendly chat.</p>
+
+          <div class="space-y-5">
+            <a href="mailto:contact@hakanduran.me" class="flex items-center gap-4 group">
+              <div class="w-10 h-10 rounded-lg bg-surface border border-border flex items-center justify-center flex-shrink-0 group-hover:border-primary/30 transition-colors">
+                <svg class="w-4 h-4 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 7l-10 6L2 7"/></svg>
+              </div>
+              <div>
+                <div class="text-xs text-muted uppercase tracking-wider mb-0.5">Email</div>
+                <div class="text-sm text-muted-light group-hover:text-primary transition-colors">contact@hakanduran.me</div>
+              </div>
+            </a>
+            <a href="tel:+491776247093" class="flex items-center gap-4 group">
+              <div class="w-10 h-10 rounded-lg bg-surface border border-border flex items-center justify-center flex-shrink-0 group-hover:border-primary/30 transition-colors">
+                <svg class="w-4 h-4 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+              </div>
+              <div>
+                <div class="text-xs text-muted uppercase tracking-wider mb-0.5">Phone</div>
+                <div class="text-sm text-muted-light group-hover:text-primary transition-colors">+49 177 624 7093</div>
+              </div>
+            </a>
+            <div class="flex items-center gap-4">
+              <div class="w-10 h-10 rounded-lg bg-surface border border-border flex items-center justify-center flex-shrink-0">
+                <svg class="w-4 h-4 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              </div>
+              <div>
+                <div class="text-xs text-muted uppercase tracking-wider mb-0.5">Location</div>
+                <div class="text-sm text-muted-light">Munich, Germany</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Social row -->
+          <div class="flex gap-3 mt-8">
+            <a href="https://github.com/hakanduranC" target="_blank" rel="noopener" aria-label="GitHub" class="w-10 h-10 rounded-lg bg-surface border border-border flex items-center justify-center hover:border-primary/30 hover:text-primary text-muted transition-all">
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+            </a>
+            <a href="https://linkedin.com/in/hakanduran98" target="_blank" rel="noopener" aria-label="LinkedIn" class="w-10 h-10 rounded-lg bg-surface border border-border flex items-center justify-center hover:border-primary/30 hover:text-primary text-muted transition-all">
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- Right: CTA card -->
+        <div class="bg-surface border border-border rounded-2xl p-8 md:p-10">
+          <h3 class="font-[var(--font-display)] text-xl font-semibold mb-2">Interested in working together?</h3>
+          <p class="text-sm text-muted-light mb-6 leading-relaxed">
+            I'm currently open to opportunities — whether it's a full-time role, a thesis collaboration, or an exciting side project. Drop me a message and let's talk.
+          </p>
+          <div class="flex flex-col sm:flex-row gap-3">
+            <a href="mailto:contact@hakanduran.me" class="inline-flex items-center justify-center gap-2.5 px-6 py-3 text-sm font-semibold bg-primary text-background rounded-xl transition-all hover:bg-primary-light hover:shadow-lg hover:shadow-primary/25">
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 7l-10 6L2 7"/></svg>
+              Send an Email
+            </a>
+            <a href="/files/cv.pdf" download class="inline-flex items-center justify-center gap-2.5 px-6 py-3 text-sm font-semibold border border-border rounded-xl text-muted-light hover:text-foreground hover:border-border-light transition-all">
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Download CV
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ STYLES ═══════════════ -->
+  <style>
+    .sec-container {
+      width: min(92%, 1100px);
+      margin: 0 auto;
+    }
+    .py-section {
+      padding-top: clamp(60px, 8vw, 100px);
+      padding-bottom: clamp(60px, 8vw, 100px);
+    }
+    .section-heading { margin-bottom: 40px; }
+    .social-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 16px;
+      font-size: 0.875rem;
+      font-weight: 500;
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: 8px;
+      color: var(--color-muted-light);
+      transition: all 0.2s;
+    }
+    .social-pill:hover {
+      color: var(--color-foreground);
+      border-color: var(--color-border-light);
+    }
+
+    /* Hero entrance */
+    .hero-anim {
+      opacity: 0;
+      transform: translateY(20px);
+      animation: hero-reveal 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    @keyframes hero-reveal { to { opacity: 1; transform: translateY(0); } }
+
+    /* ═══ EXPERIENCE — LEFT TIMELINE ═══ */
+    .exp-list {
+      position: relative;
+      padding-left: 32px;
+    }
+    /* Static gradient line */
+    .exp-list::before {
+      content: '';
+      position: absolute;
+      left: 5px;
+      top: 8px;
+      bottom: 8px;
+      width: 1px;
+      background: linear-gradient(to bottom, var(--color-primary), var(--color-border), var(--color-border));
+      border-radius: 1px;
+    }
+    .exp-item {
+      position: relative;
+      padding-bottom: 36px;
+    }
+    .exp-item:last-child { padding-bottom: 0; }
+    .exp-item::before {
+      content: '';
+      position: absolute;
+      left: -32px;
+      top: 8px;
+      width: 12px;
+      height: 12px;
+      background: var(--color-primary);
+      border-radius: 50%;
+      border: 3px solid var(--color-background);
+      z-index: 2;
+      box-shadow: 0 0 12px rgba(201, 166, 107, 0.3);
+    }
+    .exp-bullets {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .exp-bullets li {
+      font-size: 14px;
+      color: var(--color-muted-light);
+      line-height: 1.6;
+      padding-left: 18px;
+      position: relative;
+    }
+    .exp-bullets li::before {
+      content: '\25B9';
+      position: absolute;
+      left: 0;
+      color: var(--color-primary);
+      font-size: 12px;
+    }
+    .exp-item { transition: all 0.3s ease; }
+    .exp-item:hover .exp-logo-wrap {
+      background: rgba(255, 248, 235, 0.95);
+      box-shadow: 0 0 0 2px rgba(201, 166, 107, 0.3);
+    }
+    .exp-logo-wrap {
+      width: 48px;
+      height: 48px;
+      border-radius: 10px;
+      background: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      padding: 3px;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+    .exp-logo {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    /* ═══ PROJECT CARDS ═══ */
+    .project-logo-wrap {
+      width: 80px;
+      height: 52px;
+      border-radius: 10px;
+      background: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 16px;
+      padding: 4px;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+    .project-card:hover .project-logo-wrap {
+      background: rgba(255, 248, 235, 0.95);
+      box-shadow: 0 0 0 2px rgba(201, 166, 107, 0.3);
+    }
+    .project-logo {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+    }
+    .project-card {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: 16px;
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .project-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(201, 166, 107, 0.35);
+      box-shadow: 0 12px 40px -10px rgba(201, 166, 107, 0.1), 0 8px 30px -10px rgba(0,0,0,0.5);
+    }
+
+    /* ═══ SKILL CARDS ═══ */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+    @media (max-width: 900px) {
+      .skills-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 480px) {
+      .skills-grid { grid-template-columns: 1fr; }
+    }
+    .skill-card {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: 16px;
+      padding: 24px;
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .skill-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(201, 166, 107, 0.2);
+      box-shadow: 0 8px 30px -10px rgba(201, 166, 107, 0.08);
+    }
+    .skill-card:hover h3 { color: var(--color-primary); }
+    .skill-card:hover .skill-card-icon {
+      background: rgba(201, 166, 107, 0.25);
+      box-shadow: 0 0 12px rgba(201, 166, 107, 0.15);
+    }
+    .skill-card-icon {
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(201, 166, 107, 0.15);
+      border-radius: 10px;
+      color: var(--color-primary);
+      flex-shrink: 0;
+      transition: all 0.3s ease;
+    }
+    .skill-chip {
+      font-size: 12px;
+      padding: 4px 10px;
+      background: var(--color-surface-light);
+      border-radius: 20px;
+      color: var(--color-muted-light);
+      transition: all 0.25s ease;
+      cursor: default;
+    }
+    .skill-chip:hover {
+      background: rgba(201, 166, 107, 0.15);
+      color: var(--color-primary);
+    }
+
+    /* ═══ EDUCATION CARDS (GRID) ═══ */
+    .edu-logo-wrap {
+      width: 56px;
+      height: 56px;
+      border-radius: 12px;
+      background: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      overflow: hidden;
+      padding: 4px;
+      transition: all 0.3s ease;
+    }
+    .edu-logo {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+    .edu-card-grid {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: 16px;
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .edu-card-grid:hover {
+      transform: translateY(-4px);
+      border-color: rgba(201, 166, 107, 0.3);
+      box-shadow: 0 10px 36px -10px rgba(201, 166, 107, 0.1), 0 8px 30px -10px rgba(0,0,0,0.4);
+    }
+    .edu-card-grid:hover h3 { color: var(--color-primary); }
+    .edu-card-grid:hover .edu-logo-wrap {
+      background: rgba(255, 248, 235, 0.95);
+      box-shadow: 0 0 0 2px rgba(201, 166, 107, 0.3);
+    }
+
+    /* ═══ REFERENCES — SEALED BADGE ═══ */
+    .ref-seal-card {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: 16px;
+      padding: 28px;
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      width: 100%;
+      position: relative;
+    }
+    .ref-seal-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(201, 166, 107, 0.4);
+      box-shadow: 0 12px 40px -10px rgba(201, 166, 107, 0.15);
+    }
+    .ref-seal {
+      flex-shrink: 0;
+    }
+    .ref-seal-ring {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      border: 2px solid var(--color-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      animation: seal-pulse 3s ease-in-out infinite;
+    }
+    .ref-seal-ring::before {
+      content: '';
+      position: absolute;
+      inset: -6px;
+      border-radius: 50%;
+      border: 1px dashed rgba(201, 166, 107, 0.3);
+    }
+    .ref-seal-inner {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(201, 166, 107, 0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-primary);
+    }
+    @keyframes seal-pulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(201, 166, 107, 0.15); }
+      50% { box-shadow: 0 0 0 8px rgba(201, 166, 107, 0); }
+    }
+    .ref-open-hint {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      color: var(--color-muted);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .ref-seal-card:hover .ref-open-hint {
+      opacity: 1;
+      color: var(--color-primary);
+    }
+
+    /* ═══ REFERENCE MODAL ═══ */
+    .ref-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+    }
+    .ref-modal.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+    .ref-modal-backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(8px);
+    }
+    .ref-modal-content {
+      position: relative;
+      width: 90%;
+      max-width: 800px;
+      height: 85vh;
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: 16px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transform: scale(0.95) translateY(20px);
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .ref-modal.open .ref-modal-content {
+      transform: scale(1) translateY(0);
+    }
+    .ref-modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 24px;
+      border-bottom: 1px solid var(--color-border);
+      flex-shrink: 0;
+    }
+    .ref-modal-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 16px;
+      font-size: 13px;
+      font-weight: 600;
+      background: rgba(201, 166, 107, 0.15);
+      color: var(--color-primary);
+      border-radius: 8px;
+      transition: all 0.2s;
+    }
+    .ref-modal-btn:hover {
+      background: var(--color-primary);
+      color: var(--color-background);
+    }
+    .ref-modal-close-btn {
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px;
+      background: none;
+      border: none;
+      color: var(--color-muted);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .ref-modal-close-btn:hover {
+      color: var(--color-foreground);
+      background: var(--color-surface-light);
+    }
+    .ref-modal-body {
+      flex: 1;
+      padding: 16px;
+      overflow: hidden;
+    }
+
+    /* ═══ SCROLL-REVEAL ANIMATIONS ═══ */
+    .reveal-card {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+                  transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+      transition-delay: calc(var(--i, 0) * 0.1s);
+    }
+    .reveal-group.is-visible .reveal-card {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .coursework-chip {
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 0.4s ease, transform 0.4s ease;
+      transition-delay: calc(var(--i, 0) * 0.05s);
+    }
+    .reveal-chips.is-visible .coursework-chip {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ═══ LIGHT THEME OVERRIDES ═══ */
+    :global(html.light) .exp-logo-wrap,
+    :global(html.light) .project-logo-wrap,
+    :global(html.light) .edu-logo-wrap {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+    }
+    :global(html.light) .exp-item::before {
+      background: var(--color-primary);
+      border-color: var(--color-background);
+      box-shadow: 0 0 8px rgba(168, 134, 62, 0.3);
+    }
+    :global(html.light) .exp-list::before {
+      background: linear-gradient(to bottom, var(--color-primary), var(--color-border), var(--color-border));
+    }
+    :global(html.light) .exp-item:hover .exp-logo-wrap {
+      background: rgba(168, 134, 62, 0.12);
+      box-shadow: 0 0 0 2px rgba(168, 134, 62, 0.2);
+    }
+    :global(html.light) .project-card:hover .project-logo-wrap {
+      background: rgba(168, 134, 62, 0.12);
+      box-shadow: 0 0 0 2px rgba(168, 134, 62, 0.2);
+    }
+    :global(html.light) .project-card:hover {
+      border-color: rgba(168, 134, 62, 0.35);
+      box-shadow: 0 12px 40px -10px rgba(168, 134, 62, 0.12), 0 8px 30px -10px rgba(0,0,0,0.06);
+    }
+    :global(html.light) .skill-card:hover {
+      border-color: rgba(168, 134, 62, 0.25);
+      box-shadow: 0 8px 30px -10px rgba(168, 134, 62, 0.1);
+    }
+    :global(html.light) .skill-card-icon {
+      background: rgba(168, 134, 62, 0.1);
+    }
+    :global(html.light) .skill-card:hover .skill-card-icon {
+      background: rgba(168, 134, 62, 0.2);
+      box-shadow: 0 0 12px rgba(168, 134, 62, 0.12);
+    }
+    :global(html.light) .skill-chip {
+      background: var(--color-surface);
+      color: var(--color-muted-light);
+    }
+    :global(html.light) .skill-chip:hover {
+      background: rgba(168, 134, 62, 0.12);
+      color: var(--color-primary);
+    }
+    :global(html.light) .edu-card-grid:hover {
+      border-color: rgba(168, 134, 62, 0.3);
+      box-shadow: 0 10px 36px -10px rgba(168, 134, 62, 0.1), 0 8px 30px -10px rgba(0,0,0,0.04);
+    }
+    :global(html.light) .edu-card-grid:hover .edu-logo-wrap {
+      background: rgba(168, 134, 62, 0.12);
+      box-shadow: 0 0 0 2px rgba(168, 134, 62, 0.2);
+    }
+    :global(html.light) .ref-seal-ring {
+      border-color: var(--color-primary);
+    }
+    :global(html.light) .ref-seal-ring::before {
+      border-color: rgba(168, 134, 62, 0.25);
+    }
+    :global(html.light) .ref-seal-inner {
+      background: rgba(168, 134, 62, 0.1);
+      color: var(--color-primary);
+    }
+    :global(html.light) .ref-seal-card:hover {
+      border-color: rgba(168, 134, 62, 0.35);
+      box-shadow: 0 12px 40px -10px rgba(168, 134, 62, 0.12);
+    }
+    :global(html.light) .ref-modal-content {
+      background: var(--color-background);
+      border-color: var(--color-border);
+    }
+    :global(html.light) .ref-modal-backdrop {
+      background: rgba(0, 0, 0, 0.4);
+    }
+    :global(html.light) .ref-modal-btn {
+      background: rgba(168, 134, 62, 0.1);
+      color: var(--color-primary);
+    }
+    :global(html.light) .ref-modal-btn:hover {
+      background: var(--color-primary);
+      color: white;
+    }
+    :global(html.light) .social-pill {
+      background: var(--color-surface);
+      border-color: var(--color-border);
+      color: var(--color-muted-light);
+    }
+    :global(html.light) .social-pill:hover {
+      color: var(--color-foreground);
+      border-color: var(--color-border-light);
+    }
+    @keyframes seal-pulse-light {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(168, 134, 62, 0.12); }
+      50% { box-shadow: 0 0 0 8px rgba(168, 134, 62, 0); }
+    }
+    :global(html.light) .ref-seal-ring {
+      animation-name: seal-pulse-light;
+    }
+  </style>
+
+  <!-- ═══════════════ SCRIPTS ═══════════════ -->
+  <script>
+    // ═══ REFERENCE MODAL ═══
+    const modal = document.getElementById('ref-modal');
+    const iframe = document.getElementById('ref-pdf-iframe') as HTMLIFrameElement;
+    const modalTitle = document.getElementById('ref-modal-title');
+    const modalDownload = document.getElementById('ref-modal-download') as HTMLAnchorElement;
+    const closeBtn = document.getElementById('ref-modal-close');
+    const backdrop = document.getElementById('ref-modal-backdrop');
+
+    function openModal(title: string, pdf: string) {
+      if (modal && iframe && modalTitle && modalDownload) {
+        modalTitle.textContent = title;
+        modalDownload.href = pdf;
+        iframe.src = pdf;
+        modal.classList.add('open');
+        document.body.style.overflow = 'hidden';
+      }
+    }
+    function closeModal() {
+      if (modal && iframe) {
+        modal.classList.remove('open');
+        document.body.style.overflow = '';
+        setTimeout(() => { iframe.src = ''; }, 300);
+      }
+    }
+
+    document.querySelectorAll<HTMLButtonElement>('.ref-seal-card').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const title = btn.dataset.refTitle || '';
+        const pdf = btn.dataset.refPdf || '';
+        openModal(title, pdf);
+      });
+    });
+    closeBtn?.addEventListener('click', closeModal);
+    backdrop?.addEventListener('click', closeModal);
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeModal();
+    });
+  </script>
+
+  <!-- ═══ SCROLL-REVEAL OBSERVER ═══ -->
+  <script>
+    const revealTargets = document.querySelectorAll('.reveal-group, .reveal-chips');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+        } else {
+          entry.target.classList.remove('is-visible');
+        }
+      });
+    }, { threshold: 0.1 });
+    revealTargets.forEach((el) => observer.observe(el));
+  </script>
+</BaseLayout>

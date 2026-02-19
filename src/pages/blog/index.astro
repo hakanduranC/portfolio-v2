@@ -1,0 +1,33 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import BlogPostCard from '../../components/BlogPostCard.astro';
+import { getCollection } from 'astro:content';
+
+const allPosts = await getCollection('blog');
+const posts = allPosts
+  .filter((p) => !p.data.draft)
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+---
+
+<PageLayout
+  title="Blog — Hakan Duran"
+  description="Thoughts on software engineering, AI, DevOps, and technology."
+  heading="BLOG"
+  subheading="Thoughts on software engineering, AI, and technology"
+>
+  {posts.length === 0 ? (
+    <p class="text-muted-light">No posts yet. Check back soon.</p>
+  ) : (
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      {posts.map((post) => (
+        <BlogPostCard
+          title={post.data.title}
+          description={post.data.description}
+          date={post.data.date}
+          tags={post.data.tags}
+          slug={post.id}
+        />
+      ))}
+    </div>
+  )}
+</PageLayout>

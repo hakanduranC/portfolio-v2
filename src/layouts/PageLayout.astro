@@ -1,0 +1,30 @@
+---
+import BaseLayout from './BaseLayout.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  heading?: string;
+  subheading?: string;
+}
+
+const { title, description, heading, subheading } = Astro.props;
+---
+
+<BaseLayout title={title} description={description}>
+  <div class="pt-28 pb-20" style="padding-left: clamp(20px, 5vw, 56px); padding-right: clamp(20px, 5vw, 56px);">
+    <div class="max-w-[1200px] mx-auto">
+      {heading && (
+        <div class="mb-12">
+          <h1 class="font-[var(--font-display)] text-4xl md:text-5xl font-bold tracking-tight mb-3">
+            {heading}
+          </h1>
+          {subheading && (
+            <p class="text-muted-light text-lg">{subheading}</p>
+          )}
+        </div>
+      )}
+      <slot />
+    </div>
+  </div>
+</BaseLayout>

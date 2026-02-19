@@ -1,0 +1,118 @@
+---
+import ThemeToggle from './ThemeToggle.astro';
+
+const navItems = [
+  { label: 'Home', href: '/' },
+  { label: 'Education', href: '/#education' },
+  { label: 'Experience', href: '/#experience' },
+  { label: 'Projects', href: '/#projects' },
+  { label: 'Blog', href: '/blog' },
+  { label: 'Contact', href: '/#contact' },
+];
+const currentPath = Astro.url.pathname;
+---
+
+<nav id="nav" class="fixed top-0 left-0 right-0 z-50 h-16 flex items-center transition-all duration-300 border-b border-transparent">
+  <div class="max-w-[1200px] mx-auto w-full flex items-center justify-between" style="padding: 0 clamp(20px, 5vw, 56px);">
+    <!-- Logo -->
+    <a href="/" class="font-[var(--font-display)] font-bold text-lg tracking-tight transition-opacity hover:opacity-80">
+      <span class="text-primary">HAKAN</span><span class="text-foreground"> DURAN</span>
+    </a>
+
+    <!-- Desktop Links -->
+    <div class="hidden md:flex items-center gap-6">
+      {navItems.map((item) => (
+        <a
+          href={item.href}
+          class:list={[
+            'text-sm font-medium transition-colors hover:text-foreground',
+            currentPath === item.href || (item.href !== '/' && currentPath.startsWith(item.href))
+              ? 'text-primary'
+              : 'text-muted',
+          ]}
+        >
+          {item.label}
+        </a>
+      ))}
+      <ThemeToggle />
+      <a
+        href="/files/cv.pdf"
+        download
+        class="inline-flex items-center gap-2 px-4 py-2 text-xs font-semibold bg-primary text-background rounded-lg transition-all hover:bg-primary-light hover:shadow-lg hover:shadow-primary-glow"
+      >
+        <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        CV
+      </a>
+    </div>
+
+    <!-- Mobile hamburger -->
+    <button id="hamburger" class="md:hidden flex flex-col gap-[5px] p-1 cursor-pointer" aria-label="Toggle menu">
+      <span class="block w-5 h-0.5 bg-foreground rounded transition-all origin-center"></span>
+      <span class="block w-5 h-0.5 bg-foreground rounded transition-all origin-center"></span>
+      <span class="block w-5 h-0.5 bg-foreground rounded transition-all origin-center"></span>
+    </button>
+  </div>
+</nav>
+
+<!-- Mobile overlay -->
+<div id="mobile-nav" class="fixed inset-0 z-40 bg-background/95 backdrop-blur-xl flex flex-col items-center justify-center gap-6 opacity-0 pointer-events-none transition-opacity duration-300">
+  {navItems.map((item) => (
+    <a href={item.href} class="mobile-link text-2xl font-[var(--font-display)] font-semibold text-muted-light transition-colors hover:text-primary">
+      {item.label}
+    </a>
+  ))}
+  <div class="mobile-link mt-2"><ThemeToggle /></div>
+  <a
+    href="/files/cv.pdf"
+    download
+    class="mobile-link mt-2 px-8 py-3 text-sm font-semibold bg-primary text-background rounded-lg"
+  >
+    Download CV
+  </a>
+</div>
+
+<script>
+  const nav = document.getElementById('nav');
+  const hamburger = document.getElementById('hamburger');
+  const mobileNav = document.getElementById('mobile-nav');
+  const spans = hamburger?.querySelectorAll('span');
+  const mobileLinks = mobileNav?.querySelectorAll('.mobile-link');
+
+  // Scroll effect
+  window.addEventListener('scroll', () => {
+    if (nav) {
+      const scrolled = window.scrollY > 40;
+      const isLight = document.documentElement.classList.contains('light');
+      nav.style.background = scrolled
+        ? (isLight ? 'rgba(255,255,255,0.85)' : 'rgba(10,10,10,0.85)')
+        : 'transparent';
+      nav.style.backdropFilter = scrolled ? 'blur(16px)' : 'none';
+      nav.style.borderBottomColor = scrolled ? 'var(--color-border)' : 'transparent';
+    }
+  }, { passive: true });
+
+  // Hamburger toggle
+  let isOpen = false;
+  hamburger?.addEventListener('click', () => {
+    isOpen = !isOpen;
+    if (mobileNav) {
+      mobileNav.style.opacity = isOpen ? '1' : '0';
+      mobileNav.style.pointerEvents = isOpen ? 'all' : 'none';
+    }
+    if (spans) {
+      spans[0].style.transform = isOpen ? 'translateY(7px) rotate(45deg)' : '';
+      spans[1].style.opacity = isOpen ? '0' : '1';
+      spans[2].style.transform = isOpen ? 'translateY(-7px) rotate(-45deg)' : '';
+    }
+    document.body.style.overflow = isOpen ? 'hidden' : '';
+  });
+
+  mobileLinks?.forEach(link => {
+    link.addEventListener('click', () => {
+      isOpen = false;
+      if (mobileNav) { mobileNav.style.opacity = '0'; mobileNav.style.pointerEvents = 'none'; }
+      if (spans) { spans[0].style.transform = ''; spans[1].style.opacity = '1'; spans[2].style.transform = ''; }
+      document.body.style.overflow = '';
+    });
+  });
+</script>
