@@ -6,7 +6,7 @@ interface Props {
   canonicalURL?: string;
 }
 
-const { title, description, ogImage = '/og-image.png', canonicalURL } = Astro.props;
+const { title, description, ogImage = '/profile.jpg', canonicalURL } = Astro.props;
 const resolvedCanonical = canonicalURL || new URL(Astro.url.pathname, Astro.site).href;
 const resolvedOG = new URL(ogImage, Astro.site).href;
 ---

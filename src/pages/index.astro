@@ -1,8 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import ProjectCard from '../components/ProjectCard.astro';
 import BlogPostCard from '../components/BlogPostCard.astro';
-import SkillBadge from '../components/SkillBadge.astro';
 import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
 
@@ -24,7 +22,7 @@ const skillGroups = (await getCollection('skills')).sort((a, b) => a.data.order 
 
 const stats = [
   { value: '3+', label: 'Years Experience' },
-  { value: 'M.Sc.', label: 'TUM Munich' },
+  { value: 'M.Sc.', label: 'Expected Oct 2026 · TUM' },
   { value: '15+', label: 'Technologies' },
   { value: '3', label: 'Countries Lived' },
 ];
@@ -32,14 +30,14 @@ const stats = [
 const marqueeSkills = [
   'Python', 'Django', 'React', 'Angular', 'Spring Boot', 'Docker', 'Kubernetes',
   'AWS', 'Terraform', 'PostgreSQL', 'GitHub Actions', 'GitLab CI', 'LangChain',
-  'DevOps', 'CI/CD', 'Microservices', 'Node.js', 'Weaviate', 'Helm',
-  'Prometheus', 'Grafana', 'REST APIs', 'Flask', '.NET Core', 'MySQL',
+  'LangGraph', 'Text-to-SQL', 'DuckDB', 'DevOps', 'CI/CD', 'Microservices', 'Node.js', 'Weaviate', 'Helm',
+  'Prometheus', 'Grafana', 'REST APIs', 'TypeScript', 'Dash', 'Impala',
 ];
 ---
 
 <BaseLayout
-  title="Hakan Duran — Full Stack Developer"
-  description="Full Stack Developer & Computer Scientist. M.Sc. Computer Science at Technical University of Munich. Building robust applications with modern technologies."
+  title="Hakan Duran — Software Engineer · Agentic AI & Cloud"
+  description="Full Stack Software Engineer in Munich, working with agentic AI, cloud infrastructure, and DevOps. Explore my projects and TUM master's thesis at Infineon."
 >
 
   <!-- ═══════════════ HERO ═══════════════ -->
@@ -53,7 +51,7 @@ const marqueeSkills = [
         <div class="flex flex-col gap-5 order-2 md:order-1 text-center md:text-left">
           <span class="hero-anim inline-flex items-center gap-2.5 text-xs font-semibold uppercase tracking-[0.15em] text-primary justify-center md:justify-start" style="animation-delay:0.15s">
             <span class="w-6 h-px bg-primary hidden md:block"></span>
-            Full Stack Developer
+            Full Stack Software Engineer
           </span>
           <h1 class="hero-anim font-[var(--font-display)] font-bold leading-[0.95] tracking-tight" style="font-size:clamp(3.5rem,9vw,7rem);animation-delay:0.25s">
             <span class="block">HAKAN</span>
@@ -61,8 +59,11 @@ const marqueeSkills = [
           </h1>
           <p class="hero-anim text-muted text-base md:text-lg" style="animation-delay:0.45s">Computer Engineer &amp; Scientist</p>
           <p class="hero-anim text-muted-light text-sm md:text-base leading-relaxed max-w-lg mx-auto md:mx-0" style="animation-delay:0.55s">
-            Building intelligent systems that scale. Experienced in cloud infrastructure, DevOps pipelines, and AI-powered automation. Currently pursuing M.Sc. in Computer Science at the Technical University of Munich.
+            I build full-stack applications, cloud infrastructure, and AI agents that work with data. I recently submitted my master's thesis at TUM and Infineon, connecting weekly executive reports with conversational analysis.
           </p>
+          <a href="/thesis" class="hero-anim inline-flex items-center gap-2 text-sm font-semibold text-primary underline underline-offset-4 justify-center md:justify-start" style="animation-delay:0.6s">
+            Explore my master's thesis <span aria-hidden="true">↗</span>
+          </a>
           <div class="hero-anim flex items-center gap-3 flex-wrap justify-center md:justify-start" style="animation-delay:0.65s">
             <a href="https://github.com/hakanduranC" target="_blank" rel="noopener" class="social-pill">
               <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
@@ -141,7 +142,7 @@ const marqueeSkills = [
         <div class="flex flex-wrap gap-2 reveal-chips">
           {['Advanced Topics of SW Engineering', 'Requirements Engineering', 'Fundamentals of AI',
             'Computational Surgery', 'Resilient Cognitive Systems', 'DevOps Engineering',
-            'Protein Prediction', 'AWS Cloud Practitioner'].map((course, i) => (
+            'Protein Prediction', 'AWS Cloud Practitioner (ongoing)'].map((course, i) => (
             <span class="coursework-chip text-xs px-3 py-1.5 rounded-lg bg-background border border-border text-muted-light transition-all hover:text-primary hover:border-primary/30 cursor-default" style={`--i:${i}`}>{course}</span>
           ))}
         </div>
@@ -195,11 +196,11 @@ const marqueeSkills = [
         <h2 class="font-[var(--font-display)] text-3xl md:text-4xl font-bold tracking-tight">
           <span class="text-primary">Projects</span>
         </h2>
-        <p class="text-muted-light mt-2">Technical projects showcasing full-stack development and DevOps</p>
+        <p class="text-muted-light mt-2">Agentic AI, full-stack applications, and cloud infrastructure</p>
       </div>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-3 reveal-group">
         {featuredProjects.map((project, i) => (
-          <div class="project-card group reveal-card" style={`--i:${i}`}>
+          <div class:list={['project-card group reveal-card', { 'md:col-span-2': project.id === 'agentic-executive-support' }]} style={`--i:${i}`}>
             {project.data.logo && (
               <div class="project-logo-wrap">
                 <img src={project.data.logo} alt="" class="project-logo" width="80" height="44" loading="lazy" />
@@ -221,9 +222,9 @@ const marqueeSkills = [
             {(project.data.url || project.data.repo) && (
               <div class="flex items-center gap-3 mt-4 pt-3 border-t border-border">
                 {project.data.url && (
-                  <a href={project.data.url} target="_blank" rel="noopener noreferrer" class="project-link">
+                  <a href={project.data.url} target={project.data.url.startsWith('/') ? undefined : '_blank'} rel={project.data.url.startsWith('/') ? undefined : 'noopener noreferrer'} class="project-link">
                     <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-                    <span>Visit</span>
+                    <span>{project.data.urlLabel}</span>
                   </a>
                 )}
                 {project.data.repo && (
@@ -421,14 +422,14 @@ const marqueeSkills = [
         <div class="bg-surface border border-border rounded-2xl p-8 md:p-10">
           <h3 class="font-[var(--font-display)] text-xl font-semibold mb-2">Interested in working together?</h3>
           <p class="text-sm text-muted-light mb-6 leading-relaxed">
-            I'm currently open to opportunities — whether it's a full-time role, a thesis collaboration, or an exciting side project. Drop me a message and let's talk.
+            I'm open to software engineering opportunities involving full-stack development, agentic AI, or cloud infrastructure. Get in touch to discuss a role or a project.
           </p>
           <div class="flex flex-col sm:flex-row gap-3">
             <a href="mailto:contact@hakanduran.me" class="inline-flex items-center justify-center gap-2.5 px-6 py-3 text-sm font-semibold bg-primary text-background rounded-xl transition-all hover:bg-primary-light hover:shadow-lg hover:shadow-primary/25">
               <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 7l-10 6L2 7"/></svg>
               Send an Email
             </a>
-            <a href="/files/cv.pdf" download class="inline-flex items-center justify-center gap-2.5 px-6 py-3 text-sm font-semibold border border-border rounded-xl text-muted-light hover:text-foreground hover:border-border-light transition-all">
+            <a href="/files/cv.pdf?v=2026-09" download="Hakan-Duran-CV.pdf" class="inline-flex items-center justify-center gap-2.5 px-6 py-3 text-sm font-semibold border border-border rounded-xl text-muted-light hover:text-foreground hover:border-border-light transition-all">
               <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
               Download CV
             </a>

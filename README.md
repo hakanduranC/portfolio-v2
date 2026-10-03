@@ -1,43 +1,27 @@
-# Astro Starter Kit: Minimal
+# Hakan Duran — Portfolio
+
+Personal portfolio at [hakanduran.me](https://hakanduran.me), built with Astro, Tailwind CSS v4, and MDX. The existing Vercel deployment publishes changes pushed to `main`.
+
+## Development
 
 ```sh
-pnpm create astro@latest -- --template minimal
+pnpm install --frozen-lockfile
+pnpm dev
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+`pnpm test` builds the static site and checks its main routes, document links, and PDF assets. `pnpm preview` serves the production build for a visual check before pushing.
 
-## 🚀 Project Structure
+## Content
 
-Inside of your Astro project, you'll see the following folders and files:
+- `src/content/`: experience, education, projects, skills, references, and blog posts.
+- `src/pages/index.astro`: homepage and introduction.
+- `src/pages/thesis.astro`: thesis overview and native browser PDF reader, with direct open/download links for unsupported browsers.
+- `src/components/Header.astro`: shared navigation and CV download.
 
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
-```
+## Updating documents
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+- Replace `public/files/cv.pdf` with the latest CV. Its stable URL preserves existing links. Update the version query in the CV links when replacing it to avoid serving a cached copy.
+- Replace `public/files/hakan-duran-masters-thesis.pdf` with the approved public thesis. Update the metadata and `public/files/thesis-cover.png` if its cover or page count changes.
+- Keep only publication-ready documents here. Company datasets, private evaluation records, credentials, and implementation archives do not belong in this repository.
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
-
-Any static assets, like images, can be placed in the `public/` directory.
-
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `pnpm install`             | Installs dependencies                            |
-| `pnpm dev`             | Starts local dev server at `localhost:4321`      |
-| `pnpm build`           | Build your production site to `./dist/`          |
-| `pnpm preview`         | Preview your build locally, before deploying     |
-| `pnpm astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `pnpm astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+The older thesis announcement remains at its original URL with an update pointing readers to the completed work. The `/v1` rewrites in `vercel.json` retain access to the first portfolio.

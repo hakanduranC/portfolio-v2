@@ -6,6 +6,7 @@ const navItems = [
   { label: 'Education', href: '/#education' },
   { label: 'Experience', href: '/#experience' },
   { label: 'Projects', href: '/#projects' },
+  { label: 'Thesis', href: '/thesis' },
   { label: 'Blog', href: '/blog' },
   { label: 'Contact', href: '/#contact' },
 ];
@@ -20,7 +21,7 @@ const currentPath = Astro.url.pathname;
     </a>
 
     <!-- Desktop Links -->
-    <div class="hidden md:flex items-center gap-6">
+    <div class="hidden min-[1100px]:flex items-center gap-6">
       {navItems.map((item) => (
         <a
           href={item.href}
@@ -36,8 +37,8 @@ const currentPath = Astro.url.pathname;
       ))}
       <ThemeToggle />
       <a
-        href="/files/cv.pdf"
-        download
+        href="/files/cv.pdf?v=2026-09"
+        download="Hakan-Duran-CV.pdf"
         class="inline-flex items-center gap-2 px-4 py-2 text-xs font-semibold bg-primary text-background rounded-lg transition-all hover:bg-primary-light hover:shadow-lg hover:shadow-primary-glow"
       >
         <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
@@ -46,7 +47,7 @@ const currentPath = Astro.url.pathname;
     </div>
 
     <!-- Mobile hamburger -->
-    <button id="hamburger" class="md:hidden flex flex-col gap-[5px] p-1 cursor-pointer" aria-label="Toggle menu">
+    <button id="hamburger" class="min-[1100px]:hidden flex flex-col gap-[5px] p-2 cursor-pointer" aria-label="Toggle menu" aria-expanded="false" aria-controls="mobile-nav">
       <span class="block w-5 h-0.5 bg-foreground rounded transition-all origin-center"></span>
       <span class="block w-5 h-0.5 bg-foreground rounded transition-all origin-center"></span>
       <span class="block w-5 h-0.5 bg-foreground rounded transition-all origin-center"></span>
@@ -55,7 +56,7 @@ const currentPath = Astro.url.pathname;
 </nav>
 
 <!-- Mobile overlay -->
-<div id="mobile-nav" class="fixed inset-0 z-40 bg-background/95 backdrop-blur-xl flex flex-col items-center justify-center gap-6 opacity-0 pointer-events-none transition-opacity duration-300">
+<div id="mobile-nav" inert class="fixed inset-0 z-40 bg-background/95 backdrop-blur-xl flex flex-col items-center justify-center gap-4 overflow-y-auto py-20 opacity-0 pointer-events-none transition-opacity duration-300">
   {navItems.map((item) => (
     <a href={item.href} class="mobile-link text-2xl font-[var(--font-display)] font-semibold text-muted-light transition-colors hover:text-primary">
       {item.label}
@@ -63,8 +64,8 @@ const currentPath = Astro.url.pathname;
   ))}
   <div class="mobile-link mt-2"><ThemeToggle /></div>
   <a
-    href="/files/cv.pdf"
-    download
+    href="/files/cv.pdf?v=2026-09"
+    download="Hakan-Duran-CV.pdf"
     class="mobile-link mt-2 px-8 py-3 text-sm font-semibold bg-primary text-background rounded-lg"
   >
     Download CV
@@ -93,9 +94,11 @@ const currentPath = Astro.url.pathname;
 
   // Hamburger toggle
   let isOpen = false;
-  hamburger?.addEventListener('click', () => {
-    isOpen = !isOpen;
+  function setMenuOpen(open: boolean) {
+    isOpen = open;
+    hamburger?.setAttribute('aria-expanded', String(open));
     if (mobileNav) {
+      mobileNav.inert = !open;
       mobileNav.style.opacity = isOpen ? '1' : '0';
       mobileNav.style.pointerEvents = isOpen ? 'all' : 'none';
     }
@@ -105,14 +108,33 @@ const currentPath = Astro.url.pathname;
       spans[2].style.transform = isOpen ? 'translateY(-7px) rotate(-45deg)' : '';
     }
     document.body.style.overflow = isOpen ? 'hidden' : '';
-  });
+  }
+  hamburger?.addEventListener('click', () => setMenuOpen(!isOpen));
 
   mobileLinks?.forEach(link => {
     link.addEventListener('click', () => {
-      isOpen = false;
-      if (mobileNav) { mobileNav.style.opacity = '0'; mobileNav.style.pointerEvents = 'none'; }
-      if (spans) { spans[0].style.transform = ''; spans[1].style.opacity = '1'; spans[2].style.transform = ''; }
-      document.body.style.overflow = '';
+      if (link instanceof HTMLAnchorElement) setMenuOpen(false);
     });
+  });
+  document.addEventListener('keydown', (event) => {
+    if (!isOpen) return;
+    if (event.key === 'Escape') {
+      setMenuOpen(false);
+      hamburger?.focus();
+    }
+    if (event.key === 'Tab') {
+      const links = mobileNav?.querySelectorAll<HTMLElement>('a, button');
+      const last = links?.[links.length - 1];
+      if (event.shiftKey && document.activeElement === hamburger) {
+        event.preventDefault();
+        last?.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        hamburger?.focus();
+      }
+    }
+  });
+  window.matchMedia('(min-width: 1100px)').addEventListener('change', (event) => {
+    if (event.matches) setMenuOpen(false);
   });
 </script>

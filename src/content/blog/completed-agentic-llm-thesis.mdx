@@ -1,0 +1,34 @@
+---
+title: "My Master's Thesis: From KPI Deviations to Executive Reports"
+description: "The completed thesis brings together shared business definitions, bounded reporting agents, and conversational data analysis. Read the full PDF and project overview."
+date: 2026-10-03
+tags: ["agentic-ai", "thesis", "text-to-sql", "software-engineering"]
+---
+
+I submitted my master's thesis at the Technical University of Munich in September 2026, following six months of work at Infineon. The full title is **An Agentic LLM System for Executive Decision Support over Hierarchical KPI Outlier Data**.
+
+[Read the thesis online or download the PDF →](/thesis)
+
+## The problem
+
+A hierarchy of business metrics can reveal many deviations without telling a manager which ones belong in a short weekly report. Several views may describe the same underlying movement. Follow-up questions add another problem: business terms need to map to the right measures, time periods, and data.
+
+## The system
+
+I built three connected parts:
+
+- **Shared semantic context:** expert-reviewed business definitions, time rules, and a searchable name lookup.
+- **Weekly reporting:** bounded agents choose reporting levels and organize findings. Tools calculate contributions, combine overlapping views, and check the report's accounting.
+- **Conversational analysis:** a tool-first agent answers business-language questions and follows up on published summaries. Progressive disclosure exposes relevant tools; requests that those tools cannot complete move to guarded, read-only Text-to-SQL.
+
+The implementation uses Python, LangGraph, LangChain, DuckDB, and Impala/SQL, with a Dash interface and scheduled report generation.
+
+## What the evaluation showed
+
+Agents changed some analytical choices and report groupings. Completed live-agent reports passed the applied numerical and reporting checks, but a shorter report did not always account for more of the movement.
+
+The tool-first conversational configuration produced more fully correct answers and used fewer input tokens than direct Text-to-SQL on the evaluated questions. That was not a reduction in every kind of usage: output tokens and model calls increased. Incomplete answers, unsupported explanations, and clarification failures remained.
+
+The distinction matters: tools can verify calculations, but that alone does not establish whether a report is useful to management. The thesis discusses these limits and the next steps for evaluation with users.
+
+The [thesis page](/thesis) includes an overview and the complete document. My [updated CV](/files/cv.pdf?v=2026-09) also covers this work.

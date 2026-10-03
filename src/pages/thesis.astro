@@ -1,0 +1,132 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const title = 'An Agentic LLM System for Executive Decision Support over Hierarchical KPI Outlier Data';
+const pdf = '/files/hakan-duran-masters-thesis.pdf';
+const components = [
+  {
+    title: 'Shared business definitions',
+    text: 'A semantic-context builder brings together schema information, business terms, and time rules. Expert review approves the definitions used by both the reporting and conversational paths.',
+  },
+  {
+    title: 'Weekly executive summaries',
+    text: 'Bounded agents choose reporting levels and organize related findings. Tools measure deviations, combine views of the same effect, and reconcile reported contributions with the total.',
+  },
+  {
+    title: 'Conversational analysis',
+    text: 'Progressive tool disclosure presents relevant predefined analyses. When those tools cannot complete a request, the system escalates to guarded, read-only Text-to-SQL. Follow-up questions can refer to published reports.',
+  },
+];
+---
+
+<BaseLayout
+  title="Master's Thesis — Agentic AI for Executive Decision Support · Hakan Duran"
+  description="Read Hakan Duran's TUM master's thesis, carried out at Infineon: an agentic LLM system for weekly KPI summaries and business-language data analysis."
+  ogImage="/files/thesis-cover.png"
+>
+  <article class="thesis-page">
+    <a href="/#projects" class="back-link">← Back to projects</a>
+
+    <header class="thesis-header">
+      <div>
+        <p class="text-primary font-medium mb-4">Master's thesis · Informatics · 2026</p>
+        <h1>{title}</h1>
+        <p class="intro">From overlapping KPI deviations to weekly reports and business-language answers: agents make bounded analytical choices, while tools perform the calculations.</p>
+        <dl class="metadata">
+          <div><dt>Author</dt><dd>Hakan Duran</dd></div>
+          <div><dt>University</dt><dd>Technical University of Munich</dd></div>
+          <div><dt>Industry partner</dt><dd>Infineon Technologies AG</dd></div>
+          <div><dt>Submitted</dt><dd><time datetime="2026-09-15">September 15, 2026</time></dd></div>
+        </dl>
+        <div class="document-actions">
+          <a href="#reader" class="document-button primary">Read the thesis <span aria-hidden="true">↓</span></a>
+          <a href={pdf} download="Hakan-Duran-Masters-Thesis.pdf" class="document-button">Download PDF</a>
+        </div>
+        <p class="file-details">129 pages · PDF · 7 MB · English, with a German abstract</p>
+      </div>
+      <a href="#reader" class="cover-link" aria-label="Read the thesis in the PDF viewer">
+        <img src="/files/thesis-cover.png" alt="Cover of Hakan Duran's master's thesis at the Technical University of Munich" width="637" height="900" fetchpriority="high" />
+      </a>
+    </header>
+
+    <section class="overview" aria-labelledby="overview-title">
+      <div>
+        <h2 id="overview-title">What I built</h2>
+        <p class="text-muted-light mt-3">One system connecting report generation and follow-up analysis over the same data.</p>
+      </div>
+      <ol class="component-list">
+        {components.map((component, index) => (
+          <li>
+            <span class="component-number" aria-hidden="true">0{index + 1}</span>
+            <div><h3>{component.title}</h3><p>{component.text}</p></div>
+          </li>
+        ))}
+      </ol>
+    </section>
+
+    <section class="findings" aria-labelledby="findings-title">
+      <h2 id="findings-title">What the evaluation found</h2>
+      <div class="findings-body">
+        <p>Completed live-agent reports passed the applied numerical and reporting checks. Agents changed some drill choices and report groupings, but shorter reports did not consistently account for more of the movement.</p>
+        <p>On the evaluated questions, the tool-first conversational configuration produced more fully correct answers and used fewer input tokens than direct Text-to-SQL. It also used more output tokens and model calls. Incomplete answers, unsupported explanations, and clarification failures remained; management usefulness still needs expert assessment.</p>
+        <p class="stack"><strong>Built with</strong> Python, LangGraph, LangChain, DuckDB, Impala/SQL, Dash, and Docker Compose.</p>
+      </div>
+    </section>
+
+    <section id="reader" class="reader" aria-labelledby="reader-title">
+      <div class="reader-toolbar">
+        <div><h2 id="reader-title">Read the full thesis</h2><p class="text-sm text-muted-light mt-1">Use your browser's PDF controls to search, zoom, or change pages.</p></div>
+        <a href={pdf} target="_blank" rel="noopener" class="document-button">Open PDF in a new tab <span aria-hidden="true">↗</span></a>
+      </div>
+      <object data={`${pdf}#view=FitH`} type="application/pdf" aria-label="Master's thesis PDF viewer">
+        <div class="reader-fallback">
+          <p>Your browser cannot display this PDF here.</p>
+          <a href={pdf} class="text-primary underline underline-offset-4">Open the thesis PDF</a>
+        </div>
+      </object>
+      <p class="reader-help">Viewer not available on your device? <a href={pdf} target="_blank" rel="noopener">Open the PDF directly</a> or <a href={pdf} download="Hakan-Duran-Masters-Thesis.pdf">download a copy</a>.</p>
+    </section>
+  </article>
+</BaseLayout>
+
+<style>
+  .thesis-page { width: min(92%, 1100px); margin: 0 auto; padding: 104px 0 80px; }
+  .back-link { display: inline-block; color: var(--color-muted-light); font-size: .875rem; margin-bottom: 32px; }
+  .back-link:hover { color: var(--color-primary); }
+  .thesis-header { display: grid; grid-template-columns: minmax(0, 1fr) 240px; gap: 64px; align-items: start; }
+  h1, h2, h3 { font-family: var(--font-display); letter-spacing: -.025em; }
+  h1 { font-size: clamp(2rem, 4.2vw, 3.25rem); font-weight: 700; line-height: 1.12; }
+  h2 { font-size: 1.5rem; font-weight: 600; line-height: 1.3; }
+  h3 { font-size: 1.125rem; font-weight: 600; }
+  .intro { color: var(--color-muted-light); font-size: 1.0625rem; line-height: 1.75; margin-top: 24px; max-width: 65ch; }
+  .metadata { display: grid; grid-template-columns: 1fr 1fr; gap: 16px 24px; margin-top: 28px; font-size: .875rem; }
+  dt { color: var(--color-muted-light); font-size: .75rem; margin-bottom: 2px; }
+  .cover-link { display: block; margin-top: 36px; box-shadow: 0 16px 48px #0003; transition: transform .2s; }
+  .cover-link:hover { transform: translateY(-4px); }
+  .cover-link img { width: 100%; height: auto; background: white; }
+  .document-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+  .document-button { display: inline-flex; align-items: center; justify-content: center; gap: 10px; padding: 11px 18px; border: 1px solid var(--color-border-light); border-radius: 8px; font-weight: 600; font-size: .875rem; }
+  .document-button:hover { border-color: var(--color-primary); }
+  .document-button.primary { background: var(--color-primary); color: var(--color-background); border-color: var(--color-primary); }
+  .file-details { color: var(--color-muted-light); font-size: .75rem; margin-top: 12px; }
+  .overview, .findings { display: grid; grid-template-columns: 240px minmax(0, 1fr); gap: 48px; border-top: 1px solid var(--color-border); padding-top: 36px; margin-top: 56px; }
+  .component-list { display: grid; gap: 24px; }
+  .component-list li { display: flex; gap: 20px; }
+  .component-number { color: var(--color-primary); font-family: var(--font-display); padding-top: 2px; }
+  .component-list p, .findings-body p { color: var(--color-muted-light); font-size: .9375rem; line-height: 1.75; margin-top: 8px; }
+  .findings-body p:first-child { margin-top: 0; }
+  .findings-body p + p { margin-top: 16px; }
+  .stack strong { color: var(--color-foreground); margin-right: 8px; }
+  .reader { margin-top: 64px; }
+  .reader-toolbar { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px; margin-bottom: 20px; }
+  .reader object { display: block; width: 100%; height: 80vh; min-height: 480px; border: 1px solid var(--color-border-light); background: var(--color-surface); }
+  .reader-fallback { padding: 40px 24px; text-align: center; }
+  .reader-help { color: var(--color-muted-light); font-size: .8125rem; margin-top: 16px; }
+  .reader-help a { color: var(--color-primary); text-decoration: underline; text-underline-offset: 3px; }
+  @media (max-width: 800px) {
+    .thesis-header { grid-template-columns: minmax(0, 1fr); gap: 32px; }
+    .cover-link { display: none; }
+    .overview, .findings { grid-template-columns: minmax(0, 1fr); gap: 24px; }
+  }
+  @media (max-width: 400px) { .metadata { grid-template-columns: 1fr; } }
+</style>
