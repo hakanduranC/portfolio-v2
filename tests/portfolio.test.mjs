@@ -49,7 +49,7 @@ test('local page links and assets resolve, including the CV on every page', asyn
   const entries = await readdir(root, { recursive: true });
   for (const entry of entries.filter((name) => name.endsWith('.html'))) {
     const page = await html(entry);
-    assert.match(page, /href="\/files\/cv.pdf\?v=2026-09"[^>]*download="Hakan-Duran-CV.pdf"/);
+    assert.match(page, /href="\/files\/cv.pdf\?v=2026-10"[^>]*download="Hakan-Duran-CV.pdf"/);
     for (const match of page.matchAll(/(?:href|src|data)="(\/(?!\/)[^"]*)"/g)) {
       const pathname = decodeURIComponent(new URL(match[1], 'https://hakanduran.me').pathname);
       if (pathname === '/v1' || pathname.startsWith('/v1/')) continue;
